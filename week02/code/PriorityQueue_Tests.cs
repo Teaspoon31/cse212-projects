@@ -5,9 +5,9 @@ using System;
 public class PriorityQueueTests
 {
     [TestMethod]
-    // Scenario: Enqueue three items with different priorities and dequeue them.
-    // Expected Result: Highest priority item is removed first.
-    // Defect(s) Found: Code originally skipped last element in loop.
+    // Scenario: Enqueue three items with different priorities.
+    // Expected Result: Highest priority item ("High") is removed first.
+    // Defect(s) Found: Original code skipped the last element in the loop, so highest priority at the end was missed.
     public void TestPriorityQueue_HighestPriorityFirst()
     {
         var pq = new PriorityQueue();
@@ -21,8 +21,8 @@ public class PriorityQueueTests
 
     [TestMethod]
     // Scenario: Enqueue items with equal priority.
-    // Expected Result: The first item enqueued with that priority is removed first (FIFO).
-    // Defect(s) Found: Code originally overwrote index on equal priority, breaking FIFO.
+    // Expected Result: First item enqueued with that priority is removed first (FIFO).
+    // Defect(s) Found: Original code overwrote index on equal priority, breaking FIFO order.
     public void TestPriorityQueue_EqualPriorityFIFO()
     {
         var pq = new PriorityQueue();
@@ -34,9 +34,9 @@ public class PriorityQueueTests
     }
 
     [TestMethod]
-    // Scenario: Dequeue from an empty queue.
+    // Scenario: Dequeue from empty queue.
     // Expected Result: InvalidOperationException with message "The queue is empty."
-    // Defect(s) Found: None after fix.
+    // Defect(s) Found: None after fix — exception handling works correctly.
     public void TestPriorityQueue_EmptyQueueThrows()
     {
         var pq = new PriorityQueue();
@@ -46,7 +46,7 @@ public class PriorityQueueTests
     [TestMethod]
     // Scenario: Enqueue multiple items with mixed priorities and dequeue repeatedly.
     // Expected Result: Items come out in order of highest priority first, respecting FIFO for ties.
-    // Defect(s) Found: Code did not remove item after returning value.
+    // Defect(s) Found: Original code did not remove item after returning value, so queue never shrank.
     public void TestPriorityQueue_MixedPriorities()
     {
         var pq = new PriorityQueue();
